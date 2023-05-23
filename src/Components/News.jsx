@@ -8,9 +8,10 @@ import { GetTopHeadLines } from "./Services/GetTopHeadLines";
 import SearchForArticles from "./Services/SearchForArticles";
 import NewsLoader from "./Body/NewsLoader";
 import SideBarLoader from "./Body/SideBarLoader";
-import Footer from "../Footer/Footer";
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import Footer from "./Footer/Footer";
 
 const News = () => {
   const [news, setNews] = useState([]);
