@@ -4,14 +4,13 @@ import Title from "./Header/Title";
 import Country from "./Header/Country";
 import Category from "./Header/Category";
 import InfinitySpinner from "./UI/InfinitySpinner";
-import { GetTopHeadLines } from "./Services/GetTopHeadLines";
+import GetTopHeadLines from "./Services/GetTopHeadLines";
 import SearchForArticles from "./Services/SearchForArticles";
 import NewsLoader from "./Body/NewsLoader";
 import SideBarLoader from "./Body/SideBarLoader";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 import Footer from "./Footer/Footer";
+import { Route, Routes } from "react-router-dom";
 
 const News = () => {
   const [news, setNews] = useState([]);
@@ -24,7 +23,7 @@ const News = () => {
   const [activeLiCountry, setActiveLiCountry] = useState("null");
 
   const [category, setCategory] = useState(() => {
-    const savedCategory = localStorage.getItem("SelectedCategory");
+    const savedCategory = localStorage.getItem("selectedCategory");
     if (savedCategory != null) {
       return savedCategory;
     }
@@ -33,7 +32,7 @@ const News = () => {
   });
 
   const [country, setCountry] = useState(() => {
-    const savedCountry = localStorage.getItem("SelectedCountry");
+    const savedCountry = localStorage.getItem("selectedCountry");
     if (savedCountry != null) {
       return savedCountry;
     }
@@ -102,11 +101,6 @@ const News = () => {
     isDarkMode ? body.classList.add("dark") : body.classList.remove("dark");
     localStorage.setItem("darkMode", isDarkMode.toString());
   }, [category, country, page, searchQuery, isDarkMode]);
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    setPage(1);
-  };
 
   const handleCountryChange = (e) => {
     setCountry(e.target.getAttribute("value"));
@@ -215,17 +209,18 @@ const News = () => {
             {isLoading ? <InfinitySpinner /> : <NewsLoader news={news} />}
           </div>
 
-          {/* Search Will Start here */}
           <div className="w-1/3">
             <div>
-              <form onSubmit={handleSearchSubmit}>
+              <form>
                 <div className="w-full flex justify-between bg-slate-50 dark:bg-slate-900 border-2 dark:border-slate-600 rounded-xl h-10 mt-5">
                   <input
                     type="text"
                     className="bg-slate-50 dark:bg-slate-900 pl-5 text-rose-600 focus:outline-none rounded-xl"
-                    value={searchQuery}
+                    value={searchQuery.toLowerCase()}
                     placeholder="Search News Articles..."
-                    onChange={(e) => setsearchQuery(e.target.value)}
+                    onChange={(e) =>
+                      setTimeout(setsearchQuery(e.target.value), 5000)
+                    }
                   />
                 </div>
               </form>
@@ -244,14 +239,14 @@ const News = () => {
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
           >
-            Previous Page
+            Previous Page {page - 1 === 0 ? "" : `(${page - 1})`}
           </button>
 
           <button
             className="text-red-600 bg-red-100 dark:bg-red-900 dark:text-slate-200 py-1 px-4 rounded mt-10 mr-5"
             onClick={() => handlePageChange(page + 1)}
           >
-            Next Page
+            Next Page ({page + 1})
           </button>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 
 const searchNewsURL = process.env.REACT_APP_NEWS_APP_SEACRH_API_URL;
 
-export const SearchForArticles = async (params) => {
+const SearchForArticles = async (params) => {
   try {
     const data = localStorage.getItem(`response.dataSearch_${params.q}`);
     if (data) {
@@ -20,7 +20,6 @@ export const SearchForArticles = async (params) => {
     }
   } catch (error) {
     console.log(error);
-    throw new Error("Failed to fetch data");
   }
 };
 
